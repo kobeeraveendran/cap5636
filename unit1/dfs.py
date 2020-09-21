@@ -40,4 +40,4 @@ if __name__ == "__main__":
     start.children[1].add_child('E')
     start.children[1].add_child('F')
 
-    print(recursive_dfs(start, goal = 'F'))
+    print(dfs(start, goal = 'F'))
