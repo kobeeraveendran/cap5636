@@ -16,6 +16,8 @@ import mdp, util
 
 from learningAgents import ValueEstimationAgent
 
+import copy
+
 class ValueIterationAgent(ValueEstimationAgent):
     """
         * Please read learningAgents.py before reading this.*
@@ -88,7 +90,7 @@ class ValueIterationAgent(ValueEstimationAgent):
 
             # since the assignment page specified to use a static vector for the v_k-1 iteration, instead of 
             # updating the values dict in-place, we'll store the values from this iteration to be used in the next one
-            prev_values = self.values
+            prev_values = copy.deepcopy(self.values)
 
 
     def getValue(self, state):
