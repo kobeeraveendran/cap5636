@@ -106,7 +106,17 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        
+        # this will be similar to what we did above (just using less of the Bellman eqn., since we're 
+        # given a state and action already)
+        
+        # and this is based off of the separated equations for calculating V*(s) and Q*(s, a) from the Berkeley slides
+        expected_q = 0
+
+        for state_prime, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+            expected_q += prob * (self.mdp.getReward(state, action, state_prime) + self.discount + self.values[state_prime])
+
+        return expected_q
 
     def computeActionFromValues(self, state):
         """
@@ -118,7 +128,21 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        
+        # now we just use the computed q-values for the given state and each possible action to find out which 
+        # one we should take at this state
+
+        max_val = float('-inf')
+        best_action = None
+
+        for action in self.mdp.getPossibleActions(state):
+            q = self.computeQValueFromValues(state, action)
+
+            if q > max_val:
+                max_val = q
+                best_action = action
+
+        return best_action
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
