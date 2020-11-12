@@ -65,32 +65,33 @@ class ValueIterationAgent(ValueEstimationAgent):
             for state in self.mdp.getStates():
 
                 max_value = float('-inf')
-                best_action = None
+                # best_action = None
 
-                # this loop is to compute the "max_a" (max over the actions) part of the Bellman equation
-                for action in self.mdp.getPossibleActions(state):
+                # skip terminal states since there is no changing future reward
+                if not self.mdp.isTerminal(state):
 
-                    # this loop is for computing the inner sum (over the states reachable from the current state)
-                    # in the Bellman equation
-                    expected = 0
+                    # this loop is to compute the "max_a" (max over the actions) part of the Bellman equation
+                    for action in self.mdp.getPossibleActions(state):
 
-                    for state_prime, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+                        # this loop is for computing the inner sum (over the states reachable from the current state)
+                        # in the Bellman equation
+                        expected = 0
 
-                        # in here, we have the main part of the Bellman equation:
-                        # using the transition function * (immediate reward + discounted future reward)
-                        expected += prob * (self.mdp.getReward(state, action, state_prime) + discount * prev_values[state_prime])
+                        for state_prime, prob in self.mdp.getTransitionStatesAndProbs(state, action):
 
-                    # update our best values/actions if applicable
-                    if expected > max_value:
-                        max_value = expected
-                        best_action = action
+                            # in here, we have the main part of the Bellman equation:
+                            # using the transition function * (immediate reward + discounted future reward)
+                            expected += prob * (self.mdp.getReward(state, action, state_prime) + discount * prev_values[state_prime])
 
-                # store the best value for this state in the final values dict
-                self.values[state] = max_value
+                        # update our best values/actions if applicable
+                        max_value = max(max_value, expected)
+
+                    # store the best value for this state in the final values dict
+                    self.values[state] = max_value
 
             # since the assignment page specified to use a static vector for the v_k-1 iteration, instead of 
             # updating the values dict in-place, we'll store the values from this iteration to be used in the next one
-            prev_values = copy.deepcopy(self.values)
+            prev_values = self.values
 
 
     def getValue(self, state):
