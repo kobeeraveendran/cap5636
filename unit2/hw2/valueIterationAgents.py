@@ -45,6 +45,50 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        prev_values = util.Counter()
+
+        # at v0, the value of every state will be 0
+        for state in self.mdp.getStates():
+            prev_values[state] = 0
+
+        # for the next k iterations, we'll update the items of v_k using the 
+        # static vector v_k-1 from the previous iteration
+        for k in range(1, iterations + 1):
+            
+            # and at each iteration, we'll loop through the states and compute 
+            # their respective values
+
+            # outer loop is to compute new values for every state
+
+            for state in self.mdp.getStates():
+
+                max_value = float('-inf')
+                best_action = None
+
+                # this loop is to compute the "max_a" (max over the actions) part of the Bellman equation
+                for action in self.mdp.getPossibleActions(state):
+
+                    # this loop is for computing the inner sum (over the states reachable from the current state)
+                    # in the Bellman equation
+                    expected = 0
+
+                    for state_prime, prob in self.mdp.getTransitionStatesAndProbs(state, action):
+
+                        # in here, we have the main part of the Bellman equation:
+                        # using the transition function * (immediate reward + discounted future reward)
+                        expected += prob * (self.mdp.getReward(state, action, state_prime) + discount * prev_values[state_prime])
+
+                    # update our best values/actions if applicable
+                    if expected > max_value:
+                        max_value = expected
+                        best_action = action
+
+                # store the best value for this state in the final values dict
+                self.values[state] = max_value
+
+            # since the assignment page specified to use a static vector for the v_k-1 iteration, instead of 
+            # updating the values dict in-place, we'll store the values from this iteration to be used in the next one
+            prev_values = self.values
 
 
     def getValue(self, state):
