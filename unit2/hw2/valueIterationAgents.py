@@ -20,6 +20,7 @@ import copy
 
 # for step 2 of the hw
 import matplotlib.pyplot as plt
+import os
 
 class ValueIterationAgent(ValueEstimationAgent):
     """
@@ -108,6 +109,11 @@ class ValueIterationAgent(ValueEstimationAgent):
         plt.ylabel("Value")
         plt.xlabel("Iteration")
         plt.show()
+
+        if not os.path.isdir("homework_journal/plots"):
+            os.makedirs("homework_journal/plots")
+
+        plt.savefig("homework_journal/plots/value_iteration_{}iters.png".format(iterations))
 
     def getValue(self, state):
         """
