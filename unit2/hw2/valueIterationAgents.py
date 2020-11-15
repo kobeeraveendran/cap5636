@@ -18,6 +18,9 @@ from learningAgents import ValueEstimationAgent
 
 import copy
 
+# for step 2 of the hw
+import matplotlib.pyplot as plt
+
 class ValueIterationAgent(ValueEstimationAgent):
     """
         * Please read learningAgents.py before reading this.*
@@ -49,6 +52,8 @@ class ValueIterationAgent(ValueEstimationAgent):
         "*** YOUR CODE HERE ***"
         prev_values = util.Counter()
 
+        values_02 = []
+
         # at v0, the value of every state will be 0
         for state in self.mdp.getStates():
             prev_values[state] = 0
@@ -63,6 +68,12 @@ class ValueIterationAgent(ValueEstimationAgent):
             # outer loop is to compute new values for every state
 
             for state in self.mdp.getStates():
+
+                # print(state)
+
+                # for plotting the value of the state in the upper left corner
+                if state == (0, 2):
+                    values_02.append(self.values[state])
 
                 max_value = float('-inf')
                 # best_action = None
@@ -91,6 +102,12 @@ class ValueIterationAgent(ValueEstimationAgent):
             # updating the values dict in-place, we'll store the values from this iteration to be used in the next one
             prev_values = copy.deepcopy(self.values)
 
+        # plot the recorded values for (0, 2)
+        plt.plot(list(range(len(values_02))), values_02, 'ro-')
+        plt.title("Evolution of Value Iteration Values at State (0, 2)")
+        plt.ylabel("Value")
+        plt.xlabel("Iteration")
+        plt.show()
 
     def getValue(self, state):
         """
