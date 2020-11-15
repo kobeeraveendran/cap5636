@@ -55,7 +55,7 @@ class QLearningAgent(ReinforcementAgent):
         if not os.path.isdir("homework_journal/plots"):
           os.makedirs("homework_journal/plots")
 
-        with open("homework_journal/plots/q_vals_5eps.csv", "w") as file:
+        with open("homework_journal/plots/q_vals_100eps.csv", "w") as file:
           csv.writer(file).writerow(["north", "west", "south", "east"])
 
     def getQValue(self, state, action):
@@ -160,13 +160,13 @@ class QLearningAgent(ReinforcementAgent):
         # for plotting purposes (step 3)
         # if state == (1, 2):
 
-          # record the Q-value for each action at this update
+        # record the Q-value for each action at this update
         row = []
         for _action in self.getLegalActions((1, 2)):
           row.append(self.q_values[((1, 2), _action)])
 
         # write values to csv file for later plotting
-        with open("homework_journal/plots/q_vals_5eps.csv", 'a') as file:
+        with open("homework_journal/plots/q_vals_100eps.csv", 'a') as file:
           # format: north, west, south, east
           csv.writer(file).writerow(row)
 
