@@ -103,17 +103,18 @@ class ValueIterationAgent(ValueEstimationAgent):
             # updating the values dict in-place, we'll store the values from this iteration to be used in the next one
             prev_values = copy.deepcopy(self.values)
 
-        # plot the recorded values for (0, 2)
-        plt.plot(list(range(len(values_02))), values_02, 'ro-')
-        plt.title("Evolution of Value Iteration Values at State (0, 2)")
-        plt.ylabel("Value")
-        plt.xlabel("Iteration")
-        plt.show()
+        # # plot the recorded values for (0, 2)
+        # NOTE: UNCOMMENT THE FOLLOWING LINES TO GENERATE PLOTS FOR GUI RUNS
+        # plt.plot(list(range(len(values_02))), values_02, 'ro-')
+        # plt.title("Evolution of Value Iteration Values at State (0, 2)")
+        # plt.ylabel("Value")
+        # plt.xlabel("Iteration")
+        # plt.show()
 
-        if not os.path.isdir("homework_journal/plots"):
-            os.makedirs("homework_journal/plots")
+        # if not os.path.isdir("homework_journal/plots"):
+        #     os.makedirs("homework_journal/plots")
 
-        plt.savefig("homework_journal/plots/value_iteration_{}iters.png".format(iterations))
+        # plt.savefig("homework_journal/plots/value_iteration_{}iters.png".format(iterations))
 
     def getValue(self, state):
         """
