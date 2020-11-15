@@ -52,11 +52,12 @@ class QLearningAgent(ReinforcementAgent):
         # print(self.numTraining)
 
         # for plotting
-        if not os.path.isdir("homework_journal/plots"):
-          os.makedirs("homework_journal/plots")
+        # UNCOMMENT TO GENERATE PLOTS
+        # if not os.path.isdir("homework_journal/plots"):
+        #   os.makedirs("homework_journal/plots")
 
-        with open("homework_journal/plots/q_vals_100eps.csv", "w") as file:
-          csv.writer(file).writerow(["north", "west", "south", "east"])
+        # with open("homework_journal/plots/q_vals_100eps.csv", "w") as file:
+        #   csv.writer(file).writerow(["north", "west", "south", "east"])
 
     def getQValue(self, state, action):
         """
@@ -157,18 +158,18 @@ class QLearningAgent(ReinforcementAgent):
         # q(s, a) = (1 - learn rate) * q(s, a) + learn rate * sample
         self.q_values[(state, action)] = (1 - self.alpha) * self.q_values[(state, action)] + (self.alpha * sample)
 
-        # for plotting purposes (step 3)
-        # if state == (1, 2):
+        # for plotting purposes (step 3) -- UNCOMMENT THE FOLLOWING LINES TO GENERATE PLOTS
+        # leaving these lines uncommented will result in failed autograder tests, however
 
-        # record the Q-value for each action at this update
-        row = []
-        for _action in self.getLegalActions((1, 2)):
-          row.append(self.q_values[((1, 2), _action)])
+        # # record the Q-value for each action at this update
+        # row = []
+        # for _action in self.getLegalActions((1, 2)):
+        #   row.append(self.q_values[((1, 2), _action)])
 
-        # write values to csv file for later plotting
-        with open("homework_journal/plots/q_vals_100eps.csv", 'a') as file:
-          # format: north, west, south, east
-          csv.writer(file).writerow(row)
+        # # write values to csv file for later plotting
+        # with open("homework_journal/plots/q_vals_100eps.csv", 'a') as file:
+        #   # format: north, west, south, east
+        #   csv.writer(file).writerow(row)
 
 
     def getPolicy(self, state):
