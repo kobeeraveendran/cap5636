@@ -15,6 +15,8 @@
 from game import *
 from learningAgents import ReinforcementAgent
 from featureExtractors import *
+import os
+import csv
 
 import random,util,math
 
@@ -45,6 +47,16 @@ class QLearningAgent(ReinforcementAgent):
         "*** YOUR CODE HERE ***"
 
         self.q_values = util.Counter()
+
+        # print(args)
+        # print(self.numTraining)
+
+        # for plotting
+        if not os.path.isdir("homework_journal/plots"):
+          os.makedirs("homework_journal/plots")
+
+        with open("homework_journal/plots/q_vals_5eps.csv", "w") as file:
+          csv.writer(file).writerow(["north", "west", "south", "east"])
 
     def getQValue(self, state, action):
         """
@@ -144,6 +156,19 @@ class QLearningAgent(ReinforcementAgent):
         # incorporate sample into running avg.
         # q(s, a) = (1 - learn rate) * q(s, a) + learn rate * sample
         self.q_values[(state, action)] = (1 - self.alpha) * self.q_values[(state, action)] + (self.alpha * sample)
+
+        # for plotting purposes (step 3)
+        # if state == (1, 2):
+
+          # record the Q-value for each action at this update
+        row = []
+        for _action in self.getLegalActions((1, 2)):
+          row.append(self.q_values[((1, 2), _action)])
+
+        # write values to csv file for later plotting
+        with open("homework_journal/plots/q_vals_5eps.csv", 'a') as file:
+          # format: north, west, south, east
+          csv.writer(file).writerow(row)
 
 
     def getPolicy(self, state):
