@@ -138,12 +138,13 @@ class QLearningAgent(ReinforcementAgent):
         "*** YOUR CODE HERE ***"
         
         # sample = immediate reward + discount * best future reward
-        sample = reward + self.discount * self.q_values[(nextState, action)]
+        # future reward = Q(s', a')
+        sample = reward + self.discount * self.computeValueFromQValues(nextState)
 
         # incorporate sample into running avg.
         # q(s, a) = (1 - learn rate) * q(s, a) + learn rate * sample
         self.q_values[(state, action)] = (1 - self.alpha) * self.q_values[(state, action)] + (self.alpha * sample)
-        
+
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
