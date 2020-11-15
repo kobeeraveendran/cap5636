@@ -158,8 +158,8 @@ class QLearningAgent(ReinforcementAgent):
         # q(s, a) = (1 - learn rate) * q(s, a) + learn rate * sample
         self.q_values[(state, action)] = (1 - self.alpha) * self.q_values[(state, action)] + (self.alpha * sample)
 
+        # leaving these lines uncommented will result in failed autograder tests
         # for plotting purposes (step 3) -- UNCOMMENT THE FOLLOWING LINES TO GENERATE PLOTS
-        # leaving these lines uncommented will result in failed autograder tests, however
 
         # # record the Q-value for each action at this update
         # row = []
